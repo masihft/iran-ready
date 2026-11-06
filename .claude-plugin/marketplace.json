@@ -1,0 +1,18 @@
+{
+  "name": "iran-ready",
+  "owner": { "name": "masihft", "url": "https://github.com/masihft" },
+  "metadata": { "description": "Tools for developers working from Iran: find blocked services and switch to local alternatives." },
+  "plugins": [
+    {
+      "name": "iran-ready",
+      "source": "./",
+      "description": "Audit a project for services that don't work from Iran and migrate to local or self-hosted alternatives.",
+      "version": "0.1.0",
+      "author": { "name": "masihft" },
+      "license": "MIT",
+      "homepage": "https://github.com/masihft/iran-ready",
+      "repository": "https://github.com/masihft/iran-ready",
+      "keywords": ["iran", "persian", "rtl", "self-hosted", "audit"]
+    }
+  ]
+}
