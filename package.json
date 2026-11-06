@@ -1,6 +1,6 @@
 {
   "name": "iran-ready",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Find services in your project that don't work from Iran and get local or self-hosted alternatives.",
   "bin": { "iran-ready": "scripts/scan.js" },
   "files": ["scripts", "data"],

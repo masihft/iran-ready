@@ -4,7 +4,7 @@ Find the parts of your project that don't work from Iran (blocked or sanctioned 
 
 iran-ready only recommends **local alternatives and self-hosting**. It does not suggest VPNs, proxies, or any way around sanctions.
 
-> Status: the scanner, the `/iran-audit` and `/iran-fix` commands and the warning hook work. The Persian UX skill is in progress.
+> Status: the scanner, the `/iran-audit` and `/iran-fix` commands, the warning hook and the `persian-ux` skill work.
 
 ## Install the Claude Code plugin
 
@@ -33,6 +33,18 @@ The plugin also installs a `PreToolUse` hook on `Write`, `Edit`, `MultiEdit` and
 - It warns and never blocks. The tool call goes ahead.
 - It only checks new content (`new_string` for edits) and the same file types as the scanner.
 - It runs in about 30 ms, and on any internal error it exits 0 silently.
+
+### Persian UX skill
+
+`persian-ux` loads on its own when you build Persian or Iranian UI. It teaches Claude to:
+
+- lay out RTL correctly with logical CSS properties and Tailwind `ms-`/`me-`
+- show Jalali dates (`Intl` with `calendar: 'persian'`, and `date-fns-jalali` for parsing and math)
+- convert Persian digits before validation and use real half-spaces (نیم‌فاصله)
+- store money in Rial and show it in Toman with `٬` grouping
+- validate mobile, national ID, bank card and Sheba with [`@persian-tools/persian-tools`](https://github.com/persian-tools/persian-tools) instead of hand-written regexes
+
+PHP and Laravel equivalents are included: `sadegh19b/laravel-persian-validation`, `morilog/jalali` and `intl`.
 
 ## Use the scanner on its own
 
@@ -106,7 +118,7 @@ Use `--json` for machine-readable output.
 - [x] Blocklist + standalone scanner + fixture tests
 - [x] Claude Code plugin: `/iran-audit` and `/iran-fix`
 - [x] `PreToolUse` hook that warns when Claude writes a blocked service into your code
-- [ ] `persian-ux` skill: RTL, Jalali dates, Persian digits, half-space, Toman/Rial, national ID / card / Sheba validation
+- [x] `persian-ux` skill: RTL, Jalali dates, Persian digits, half-space, Toman/Rial, national ID / card / Sheba validation
 
 ## Contributing
 
@@ -126,7 +138,7 @@ Adding a blocklist entry is the most useful contribution. See [CONTRIBUTING.md](
 /plugin install iran-ready --marketplace masihft/iran-ready
 ```
 
-بعد در هر پروژه `/iran-ready:iran-audit` را برای گزارش اجرا کنید و `/iran-ready:iran-fix` را برای مهاجرت. مهاجرت سرویس‌به‌سرویس انجام می‌شود و قبل از هر تغییر از شما تأیید گرفته می‌شود. اگر Claude بخواهد سرویس مسدودی به کد اضافه کند، hook پلاگین به خود Claude هشدار می‌دهد. جلوی کار را نمی‌گیرد.
+بعد در هر پروژه `/iran-ready:iran-audit` را برای گزارش اجرا کنید و `/iran-ready:iran-fix` را برای مهاجرت. مهاجرت سرویس‌به‌سرویس انجام می‌شود و قبل از هر تغییر از شما تأیید گرفته می‌شود. اگر Claude بخواهد سرویس مسدودی به کد اضافه کند، hook پلاگین به خود Claude هشدار می‌دهد. جلوی کار را نمی‌گیرد. skill `persian-ux` هم به Claude یاد می‌دهد که RTL، تاریخ شمسی، اعداد فارسی، نیم‌فاصله، تومان و ریال، و اعتبارسنجی کد ملی و کارت و شبا را درست پیاده کند.
 
 اجرای اسکنر بدون نصب:
 
