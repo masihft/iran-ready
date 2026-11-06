@@ -1,7 +1,7 @@
 ---
 description: Scan this project for services that don't work from Iran and explain each finding with alternatives and migration effort
 argument-hint: "[path]"
-allowed-tools: Bash(node:*), Read, Grep, Glob
+allowed-tools: Read, Grep, Glob
 ---
 
 # /iran-audit

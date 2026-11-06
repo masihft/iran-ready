@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.1 (2026-11-06)
+
+Changes for the Claude plugin directory review:
+
+- Commands no longer pre-approve tools that change things: `/iran-fix` asks before every shell command and file edit, and `/iran-audit` asks before running the scanner.
+- The hook uses the `command` + `args` form (`node` + `scripts/guard.js`).
+- The repo no longer ships a `node_modules` folder; the test creates it at run time.
+
 ## 1.0.0 (2026-11-06)
 
 First stable release.

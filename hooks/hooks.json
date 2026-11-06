@@ -5,7 +5,14 @@
       {
         "matcher": "Write|Edit|MultiEdit|Bash",
         "hooks": [
-          { "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/guard.js\"", "timeout": 5 }
+          {
+            "type": "command",
+            "command": "node",
+            "timeout": 5,
+            "args": [
+              "${CLAUDE_PLUGIN_ROOT}/scripts/guard.js"
+            ]
+          }
         ]
       }
     ]

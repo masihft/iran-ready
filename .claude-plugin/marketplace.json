@@ -7,7 +7,7 @@
       "name": "iran-ready",
       "source": "./",
       "description": "Audit a project for services that don't work from Iran and migrate to local or self-hosted alternatives.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": { "name": "masihft" },
       "license": "MIT",
       "homepage": "https://github.com/masihft/iran-ready",

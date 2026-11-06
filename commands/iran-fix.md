@@ -1,7 +1,7 @@
 ---
 description: Migrate blocked or sanctioned services to local or self-hosted alternatives, one service at a time, after your confirmation
 argument-hint: "[service-id]"
-allowed-tools: Bash, Read, Edit, Write, Glob, Grep, AskUserQuestion
+allowed-tools: Read, Glob, Grep, AskUserQuestion
 ---
 
 # /iran-fix

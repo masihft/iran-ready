@@ -1,6 +1,8 @@
 'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const { spawnSync } = require('child_process');
 const { scan, loadBlocklist, matchText } = require('../scripts/scan.js');
@@ -39,7 +41,12 @@ test('php-shop: finds every known violation', () => {
 });
 
 test('react-app: finds every known violation and skips node_modules, dist, .gitignore', () => {
-  assert.deepEqual(keys(scan(path.join(FIX, 'react-app'))), [
+  // node_modules is created at test time so the repo ships none
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'iran-ready-'));
+  fs.cpSync(path.join(FIX, 'react-app'), dir, { recursive: true });
+  fs.mkdirSync(path.join(dir, 'node_modules', 'firebase'), { recursive: true });
+  fs.writeFileSync(path.join(dir, 'node_modules', 'firebase', 'index.js'), "module.exports = 'https://x.firebaseio.com';");
+  assert.deepEqual(keys(scan(dir)), [
     '.env.example:1:openai-api',
     'docker-compose.yml:3:docker-hub',
     'package.json:12:vercel',
