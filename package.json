@@ -1,0 +1,12 @@
+{
+  "name": "iran-ready",
+  "version": "0.1.0",
+  "description": "Find services in your project that don't work from Iran and get local or self-hosted alternatives.",
+  "bin": { "iran-ready": "scripts/scan.js" },
+  "files": ["scripts", "data"],
+  "scripts": { "test": "node --test tests/*.test.js" },
+  "engines": { "node": ">=18" },
+  "keywords": ["iran", "persian", "rtl", "sanctions", "self-hosted", "claude-code", "plugin", "audit"],
+  "repository": { "type": "git", "url": "git+https://github.com/masihft/iran-ready.git" },
+  "license": "MIT"
+}

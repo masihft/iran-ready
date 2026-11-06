@@ -1,0 +1,8 @@
+{
+  "name": "demo/php-shop",
+  "require": {
+    "php": ">=8.1",
+    "stripe/stripe-php": "^13.0",
+    "google/recaptcha": "^1.3"
+  }
+}

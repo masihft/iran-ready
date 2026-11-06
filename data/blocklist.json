@@ -1,0 +1,365 @@
+[
+  {
+    "id": "google-fonts",
+    "name": "Google Fonts",
+    "category": "fonts",
+    "patterns": ["fonts\\.googleapis\\.com", "fonts\\.gstatic\\.com", "next/font/google"],
+    "files": [],
+    "severity": "blocked",
+    "why": "Google font CDN requests from Iran fail or time out, so pages render with fallback fonts and block on the stylesheet.",
+    "alternatives": [
+      { "name": "Self-hosted Vazirmatn", "url": "https://github.com/rastikerdar/vazirmatn", "migration_note": "Download the woff2 files into assets/fonts and declare them with @font-face; remove the Google <link>/@import.", "verify": true },
+      { "name": "@fontsource/vazirmatn", "url": "https://fontsource.org/fonts/vazirmatn", "migration_note": "npm install @fontsource/vazirmatn and import it in your entry file; fonts are bundled with your build.", "verify": true }
+    ]
+  },
+  {
+    "id": "recaptcha",
+    "name": "Google reCAPTCHA",
+    "category": "captcha",
+    "patterns": ["google\\.com/recaptcha", "gstatic\\.com/recaptcha", "recaptcha\\.net", "class=[\"']g-recaptcha", "[\"']react-google-recaptcha(-v3)?[\"']", "google/recaptcha"],
+    "files": [],
+    "severity": "blocked",
+    "why": "The reCAPTCHA script does not load reliably for Iranian users, so forms protected by it cannot be submitted.",
+    "alternatives": [
+      { "name": "svg-captcha (Node, self-hosted)", "url": "https://github.com/produck/svg-captcha", "migration_note": "Generate the challenge on your server and verify the answer in the session.", "verify": true },
+      { "name": "Gregwar/Captcha (PHP, self-hosted)", "url": "https://github.com/Gregwar/Captcha", "migration_note": "composer require gregwar/captcha; store the phrase in the session and compare on submit.", "verify": true }
+    ]
+  },
+  {
+    "id": "cloudflare-turnstile",
+    "name": "Cloudflare Turnstile",
+    "category": "captcha",
+    "patterns": ["challenges\\.cloudflare\\.com/turnstile", "cf-turnstile"],
+    "files": [],
+    "severity": "unreliable",
+    "why": "Availability from Iranian networks varies; a failed challenge locks users out of the form.",
+    "alternatives": [
+      { "name": "svg-captcha (Node, self-hosted)", "url": "https://github.com/produck/svg-captcha", "migration_note": "Serve and verify the captcha from your own server.", "verify": true }
+    ]
+  },
+  {
+    "id": "google-maps",
+    "name": "Google Maps",
+    "category": "maps",
+    "patterns": ["maps\\.googleapis\\.com", "maps\\.google\\.com", "google\\.com/maps", "[\"']@react-google-maps/", "[\"']@googlemaps/", "[\"']google-map-react[\"']"],
+    "files": [],
+    "severity": "blocked",
+    "why": "Google Maps Platform does not serve API keys or tiles to Iran.",
+    "alternatives": [
+      { "name": "Neshan Maps", "url": "https://platform.neshan.org", "migration_note": "Use the Neshan web SDK (Leaflet/OpenLayers based) with a Neshan API key; geocoding and routing APIs are available.", "verify": true },
+      { "name": "Map.ir", "url": "https://map.ir", "migration_note": "Map.ir offers tiles, search and reverse geocoding with an Iranian account.", "verify": true },
+      { "name": "Leaflet + OpenStreetMap", "url": "https://leafletjs.com", "migration_note": "Use Leaflet with an OSM tile server; self-host tiles for production traffic.", "verify": true }
+    ]
+  },
+  {
+    "id": "mapbox",
+    "name": "Mapbox",
+    "category": "maps",
+    "patterns": ["api\\.mapbox\\.com", "[\"']mapbox-gl[\"']", "[\"']@mapbox/"],
+    "files": [],
+    "severity": "sanctioned-signup",
+    "why": "Mapbox accounts and tokens are not available to Iranian users.",
+    "alternatives": [
+      { "name": "Neshan Maps", "url": "https://platform.neshan.org", "migration_note": "Swap the map component for the Neshan SDK.", "verify": true },
+      { "name": "MapLibre GL + self-hosted tiles", "url": "https://maplibre.org", "migration_note": "MapLibre is an open-source fork of mapbox-gl with a near-identical API.", "verify": true }
+    ]
+  },
+  {
+    "id": "firebase",
+    "name": "Firebase",
+    "category": "hosting",
+    "patterns": ["[\"']firebase(/[^\"']*)?[\"']", "[\"']firebase-admin(/[^\"']*)?[\"']", "firebaseio\\.com", "firebaseapp\\.com", "kreait/firebase-php"],
+    "files": [],
+    "severity": "blocked",
+    "why": "Firebase (Google Cloud) blocks Iranian IPs and accounts; auth, database and storage calls fail.",
+    "alternatives": [
+      { "name": "Supabase (self-hosted)", "url": "https://supabase.com/docs/guides/self-hosting", "migration_note": "Run Supabase with Docker on an Iranian server; auth, Postgres and storage replace Firebase Auth/Firestore/Storage.", "verify": true },
+      { "name": "Appwrite (self-hosted)", "url": "https://appwrite.io", "migration_note": "Self-host Appwrite; its SDK covers auth, database, storage and functions.", "verify": true },
+      { "name": "PocketBase", "url": "https://pocketbase.io", "migration_note": "Single binary backend with auth, realtime DB and file storage; good for small apps.", "verify": true }
+    ]
+  },
+  {
+    "id": "google-cloud",
+    "name": "Google Cloud APIs",
+    "category": "hosting",
+    "patterns": ["storage\\.googleapis\\.com", "[\"']@google-cloud/", "google/cloud-"],
+    "files": [],
+    "severity": "blocked",
+    "why": "Google Cloud does not serve Iran; requests and account creation are refused.",
+    "alternatives": [
+      { "name": "ArvanCloud Object Storage", "url": "https://www.arvancloud.ir", "migration_note": "S3-compatible: use an S3 client with the ArvanCloud endpoint.", "verify": true },
+      { "name": "MinIO (self-hosted)", "url": "https://min.io", "migration_note": "Run MinIO on your own server and use any S3 client.", "verify": true }
+    ]
+  },
+  {
+    "id": "google-analytics",
+    "name": "Google Analytics / Tag Manager",
+    "category": "analytics",
+    "patterns": ["googletagmanager\\.com", "google-analytics\\.com", "\\bgtag\\s*\\(", "[\"']react-ga4?[\"']", "@next/third-parties/google"],
+    "files": [],
+    "severity": "blocked",
+    "why": "GA scripts are blocked for Iranian visitors, so analytics data is missing and the script can delay page load.",
+    "alternatives": [
+      { "name": "Umami (self-hosted)", "url": "https://umami.is", "migration_note": "Self-host Umami and replace the gtag snippet with the Umami script tag.", "verify": true },
+      { "name": "Matomo (self-hosted)", "url": "https://matomo.org", "migration_note": "Self-host Matomo (PHP + MySQL); it can import GA history.", "verify": true }
+    ]
+  },
+  {
+    "id": "google-signin",
+    "name": "Sign in with Google",
+    "category": "auth",
+    "patterns": ["accounts\\.google\\.com/gsi", "apis\\.google\\.com/js/platform", "[\"']@react-oauth/google[\"']", "GoogleProvider\\s*\\(", "league/oauth2-google"],
+    "files": [],
+    "severity": "unreliable",
+    "why": "Google OAuth is inconsistent from Iran and creating the OAuth client needs a Google Cloud project.",
+    "alternatives": [
+      { "name": "Phone OTP via an Iranian SMS provider", "url": "https://kavenegar.com", "migration_note": "Send a one-time code to the user's mobile number; validate the number format with @persian-tools/persian-tools.", "verify": true },
+      { "name": "Keycloak (self-hosted)", "url": "https://www.keycloak.org", "migration_note": "Self-hosted OpenID Connect provider if you need SSO.", "verify": true }
+    ]
+  },
+  {
+    "id": "youtube-embed",
+    "name": "YouTube embeds",
+    "category": "media",
+    "patterns": ["youtube\\.com/embed", "youtube-nocookie\\.com", "youtube\\.com/iframe_api", "youtu\\.be/", "[\"']react-youtube[\"']"],
+    "files": [],
+    "severity": "blocked",
+    "why": "YouTube is filtered in Iran; embedded players show an empty frame.",
+    "alternatives": [
+      { "name": "Aparat embed", "url": "https://www.aparat.com", "migration_note": "Upload the video to Aparat and use its embed iframe.", "verify": true },
+      { "name": "Self-hosted HLS video", "url": "https://www.arvancloud.ir", "migration_note": "Host the video on an Iranian VOD/CDN service or your own server and play it with a <video> tag or hls.js.", "verify": true }
+    ]
+  },
+  {
+    "id": "social-embeds",
+    "name": "Facebook / Instagram / X (Twitter) widgets",
+    "category": "media",
+    "patterns": ["connect\\.facebook\\.net", "platform\\.twitter\\.com", "platform\\.x\\.com", "instagram\\.com/embed", "\\bfbq\\s*\\("],
+    "files": [],
+    "severity": "blocked",
+    "why": "These platforms are filtered in Iran; widgets and pixels fail and can stall page load.",
+    "alternatives": [
+      { "name": "Static links and screenshots", "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a", "migration_note": "Replace the embed with a plain link and a local image of the post.", "verify": true },
+      { "name": "Umami (self-hosted) instead of tracking pixels", "url": "https://umami.is", "migration_note": "Track conversions with self-hosted analytics events.", "verify": true }
+    ]
+  },
+  {
+    "id": "gravatar",
+    "name": "Gravatar",
+    "category": "media",
+    "patterns": ["gravatar\\.com", "[\"']react-gravatar[\"']"],
+    "files": [],
+    "severity": "unreliable",
+    "why": "Gravatar images load inconsistently from Iran, leaving broken avatars.",
+    "alternatives": [
+      { "name": "DiceBear (generated locally)", "url": "https://www.dicebear.com", "migration_note": "Generate avatars server-side or at build time with @dicebear/core; no external request.", "verify": true },
+      { "name": "Initials avatar", "url": "https://developer.mozilla.org/en-US/docs/Web/SVG", "migration_note": "Render the user's initials in an inline SVG or styled <span>.", "verify": true }
+    ]
+  },
+  {
+    "id": "openai-api",
+    "name": "OpenAI API",
+    "category": "ai",
+    "patterns": ["api\\.openai\\.com", "\\bOPENAI_API_KEY\\b"],
+    "files": [],
+    "severity": "blocked",
+    "why": "OpenAI does not support Iran; requests and account signup are refused.",
+    "alternatives": [
+      { "name": "Ollama (self-hosted open-weight models)", "url": "https://ollama.com", "migration_note": "Ollama exposes an OpenAI-compatible API; point the SDK baseURL at your server.", "verify": true },
+      { "name": "vLLM (self-hosted)", "url": "https://docs.vllm.ai", "migration_note": "OpenAI-compatible server for GPU hosts; keep the SDK and change baseURL.", "verify": true }
+    ]
+  },
+  {
+    "id": "anthropic-api",
+    "name": "Anthropic API",
+    "category": "ai",
+    "patterns": ["api\\.anthropic\\.com", "\\bANTHROPIC_API_KEY\\b"],
+    "files": [],
+    "severity": "blocked",
+    "why": "Iran is not a supported region for the Anthropic API.",
+    "alternatives": [
+      { "name": "Ollama (self-hosted open-weight models)", "url": "https://ollama.com", "migration_note": "Run an open-weight model locally and call it over its HTTP API.", "verify": true }
+    ]
+  },
+  {
+    "id": "google-gemini",
+    "name": "Google Gemini API",
+    "category": "ai",
+    "patterns": ["generativelanguage\\.googleapis\\.com", "[\"']@google/genai[\"']", "[\"']@google/generative-ai[\"']", "\\bGEMINI_API_KEY\\b"],
+    "files": [],
+    "severity": "blocked",
+    "why": "The Gemini API is not available in Iran.",
+    "alternatives": [
+      { "name": "Ollama (self-hosted open-weight models)", "url": "https://ollama.com", "migration_note": "Run an open-weight model locally and call it over its HTTP API.", "verify": true }
+    ]
+  },
+  {
+    "id": "docker-hub",
+    "name": "Docker Hub image pulls",
+    "category": "registry",
+    "patterns": ["^\\s*FROM\\s+(--platform=\\S+\\s+)?(?!scratch\\b)(?![\\w.-]+(\\.[\\w-]+|:\\d+)/)[\\w][\\w./:-]*", "^\\s*FROM\\s+(--platform=\\S+\\s+)?docker\\.io/", "^\\s*image:\\s*[\"']?(?![\\w.-]+(\\.[\\w-]+|:\\d+)/)[\\w][\\w./:-]*[\"']?\\s*$", "registry-1\\.docker\\.io"],
+    "files": ["Dockerfile*", "*.dockerfile", "docker-compose*", "compose.y*ml"],
+    "severity": "blocked",
+    "why": "Docker Hub refuses pulls from Iranian IPs; images without a registry prefix default to Docker Hub.",
+    "alternatives": [
+      { "name": "ArvanCloud Docker mirror", "url": "https://docker.arvancloud.ir", "migration_note": "Prefix images with the mirror host (e.g. docker.arvancloud.ir/library/node:20) or set it as a registry-mirror in daemon.json.", "verify": true },
+      { "name": "Harbor (self-hosted registry)", "url": "https://goharbor.io", "migration_note": "Run your own registry and push the base images you need to it.", "verify": true }
+    ]
+  },
+  {
+    "id": "npm-registry",
+    "name": "npm public registry",
+    "category": "registry",
+    "patterns": ["registry\\.npmjs\\.org"],
+    "files": [".npmrc", "package.json", "*.yml", "*.yaml"],
+    "severity": "unreliable",
+    "why": "registry.npmjs.org is slow or intermittently unreachable from Iran, which breaks installs and CI.",
+    "alternatives": [
+      { "name": "Liara package mirror", "url": "https://liara.ir", "migration_note": "Set registry=<mirror URL> in .npmrc; check Liara docs for the current npm mirror address.", "verify": true },
+      { "name": "Verdaccio (self-hosted)", "url": "https://verdaccio.org", "migration_note": "Run a caching npm proxy inside your network and point .npmrc at it.", "verify": true }
+    ]
+  },
+  {
+    "id": "packagist",
+    "name": "Packagist (Composer)",
+    "category": "registry",
+    "patterns": ["repo\\.packagist\\.org", "packagist\\.org"],
+    "files": ["composer.json"],
+    "severity": "unreliable",
+    "why": "Composer installs from Packagist/GitHub dist URLs are slow or fail from Iran.",
+    "alternatives": [
+      { "name": "Satis (self-hosted Composer repo)", "url": "https://github.com/composer/satis", "migration_note": "Mirror the packages you need and add your Satis URL to composer.json repositories.", "verify": true }
+    ]
+  },
+  {
+    "id": "public-cdns",
+    "name": "Public JS CDNs (jsDelivr, unpkg, cdnjs, Google Hosted Libraries)",
+    "category": "cdn",
+    "patterns": ["cdn\\.jsdelivr\\.net", "unpkg\\.com", "cdnjs\\.cloudflare\\.com", "ajax\\.googleapis\\.com"],
+    "files": [],
+    "severity": "unreliable",
+    "why": "These CDNs are filtered or throttled at times in Iran; a failed script can break the whole page.",
+    "alternatives": [
+      { "name": "Bundle or self-host the library", "url": "https://docs.npmjs.com/cli/commands/npm-install", "migration_note": "Install the package and ship it from your own server or bundle.", "verify": true },
+      { "name": "ArvanCloud CDN", "url": "https://www.arvancloud.ir", "migration_note": "Put your own static files behind an Iranian CDN.", "verify": true }
+    ]
+  },
+  {
+    "id": "stripe",
+    "name": "Stripe",
+    "category": "payment",
+    "patterns": ["js\\.stripe\\.com", "api\\.stripe\\.com", "[\"']stripe[\"']", "[\"']@stripe/", "stripe/stripe-php"],
+    "files": [],
+    "severity": "sanctioned-signup",
+    "why": "Stripe does not onboard Iranian businesses and Iranian bank cards are not accepted.",
+    "alternatives": [
+      { "name": "Zarinpal", "url": "https://www.zarinpal.com", "migration_note": "Request -> redirect -> verify flow; amounts are in Rial or Toman depending on API version, check the docs.", "verify": true },
+      { "name": "Zibal", "url": "https://zibal.ir", "migration_note": "Similar request/verify gateway flow with a merchant code.", "verify": true },
+      { "name": "IDPay", "url": "https://idpay.ir", "migration_note": "REST gateway with sandbox mode for testing.", "verify": true }
+    ]
+  },
+  {
+    "id": "paypal",
+    "name": "PayPal",
+    "category": "payment",
+    "patterns": ["paypal\\.com", "paypalobjects\\.com", "[\"']@paypal/", "paypal/rest-api-sdk-php", "paypal/paypal-checkout-sdk"],
+    "files": [],
+    "severity": "sanctioned-signup",
+    "why": "PayPal does not operate in Iran.",
+    "alternatives": [
+      { "name": "Zarinpal", "url": "https://www.zarinpal.com", "migration_note": "Replace the PayPal button with a server-side Zarinpal request and verify callback.", "verify": true },
+      { "name": "Zibal", "url": "https://zibal.ir", "migration_note": "Server-side request/verify gateway.", "verify": true }
+    ]
+  },
+  {
+    "id": "vercel",
+    "name": "Vercel",
+    "category": "hosting",
+    "patterns": ["\\.vercel\\.app", "[\"']vercel[\"']", "[\"']@vercel/"],
+    "files": [],
+    "severity": "sanctioned-signup",
+    "why": "Vercel accounts are not available to Iranian users and deployments can be suspended.",
+    "alternatives": [
+      { "name": "Liara", "url": "https://liara.ir", "migration_note": "Iranian PaaS with Next.js/Node support; deploy with the liara CLI.", "verify": true },
+      { "name": "Hamravesh (Darkube)", "url": "https://hamravesh.com", "migration_note": "Container-based PaaS; deploy a Dockerfile.", "verify": true }
+    ]
+  },
+  {
+    "id": "netlify",
+    "name": "Netlify",
+    "category": "hosting",
+    "patterns": ["\\.netlify\\.app", "[\"']netlify-cli[\"']", "[\"']@netlify/"],
+    "files": [],
+    "severity": "sanctioned-signup",
+    "why": "Netlify accounts are not available to Iranian users.",
+    "alternatives": [
+      { "name": "Liara static hosting", "url": "https://liara.ir", "migration_note": "Deploy the static build folder with the liara CLI.", "verify": true },
+      { "name": "ArvanCloud", "url": "https://www.arvancloud.ir", "migration_note": "Object storage + CDN for static sites.", "verify": true }
+    ]
+  },
+  {
+    "id": "aws",
+    "name": "Amazon Web Services",
+    "category": "hosting",
+    "patterns": ["\\.amazonaws\\.com", "[\"']aws-amplify[\"']", "[\"']@aws-amplify/"],
+    "files": [],
+    "severity": "sanctioned-signup",
+    "why": "AWS does not allow accounts from Iran. Note: the S3 SDK itself is fine against S3-compatible Iranian storage.",
+    "alternatives": [
+      { "name": "ArvanCloud Object Storage", "url": "https://www.arvancloud.ir", "migration_note": "Keep @aws-sdk/client-s3 (or aws-sdk-php) and set endpoint to the ArvanCloud S3 endpoint.", "verify": true },
+      { "name": "Liara Object Storage", "url": "https://liara.ir", "migration_note": "S3-compatible; change endpoint and credentials only.", "verify": true },
+      { "name": "MinIO (self-hosted)", "url": "https://min.io", "migration_note": "Self-hosted S3-compatible storage.", "verify": true }
+    ]
+  },
+  {
+    "id": "heroku",
+    "name": "Heroku",
+    "category": "hosting",
+    "patterns": ["\\.herokuapp\\.com", "heroku\\.com"],
+    "files": [],
+    "severity": "sanctioned-signup",
+    "why": "Heroku (Salesforce) does not allow accounts from Iran.",
+    "alternatives": [
+      { "name": "Liara", "url": "https://liara.ir", "migration_note": "Supports Procfile-style Node/PHP/Python apps.", "verify": true }
+    ]
+  },
+  {
+    "id": "sentry",
+    "name": "Sentry (SaaS)",
+    "category": "analytics",
+    "patterns": ["\\.sentry\\.io", "[\"']@sentry/", "sentry/sentry(-laravel|-symfony)?\\b"],
+    "files": [],
+    "severity": "sanctioned-signup",
+    "why": "sentry.io does not serve Iranian accounts; the SDK can still talk to a self-hosted server.",
+    "alternatives": [
+      { "name": "GlitchTip (self-hosted, Sentry-compatible)", "url": "https://glitchtip.com", "migration_note": "Keep the Sentry SDK and change the DSN to your GlitchTip server.", "verify": true },
+      { "name": "Self-hosted Sentry", "url": "https://develop.sentry.dev/self-hosted/", "migration_note": "Run Sentry with Docker Compose; keep the SDK, change the DSN.", "verify": true }
+    ]
+  },
+  {
+    "id": "twilio",
+    "name": "Twilio",
+    "category": "messaging",
+    "patterns": ["api\\.twilio\\.com", "[\"']twilio[\"']", "twilio/sdk"],
+    "files": [],
+    "severity": "sanctioned-signup",
+    "why": "Twilio does not allow Iranian accounts and does not deliver reliably to Iranian numbers.",
+    "alternatives": [
+      { "name": "Kavenegar", "url": "https://kavenegar.com", "migration_note": "REST SMS/OTP API with Node and PHP SDKs.", "verify": true },
+      { "name": "SMS.ir", "url": "https://sms.ir", "migration_note": "REST SMS API with OTP templates.", "verify": true }
+    ]
+  },
+  {
+    "id": "sendgrid",
+    "name": "SendGrid / Mailchimp",
+    "category": "messaging",
+    "patterns": ["api\\.sendgrid\\.com", "[\"']@sendgrid/", "sendgrid/sendgrid", "\\.mailchimp\\.com", "[\"']@mailchimp/"],
+    "files": [],
+    "severity": "sanctioned-signup",
+    "why": "These providers close accounts linked to Iran.",
+    "alternatives": [
+      { "name": "Postal (self-hosted mail server)", "url": "https://docs.postalserver.io", "migration_note": "Self-hosted SMTP/HTTP mail delivery; configure SPF/DKIM for your domain.", "verify": true },
+      { "name": "Your host's SMTP", "url": "https://nodemailer.com", "migration_note": "Send via SMTP with nodemailer (Node) or PHPMailer (PHP).", "verify": true }
+    ]
+  }
+]

@@ -1,0 +1,5 @@
+services:
+  web:
+    image: node:20
+  cache:
+    image: docker.arvancloud.ir/redis:7
