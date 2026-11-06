@@ -59,6 +59,10 @@ function isIgnored(rel, name, rules) {
   return rules.some((r) => (r.anchored ? r.re.test(rel) : r.re.test(name)));
 }
 
+function isScannable(name) {
+  return !SKIP_FILES.has(name) && (EXTS.has(path.extname(name).toLowerCase()) || NAMES.test(name));
+}
+
 function* walk(root, rules) {
   const stack = [''];
   while (stack.length) {
@@ -69,7 +73,7 @@ function* walk(root, rules) {
       const rel = relDir ? relDir + '/' + d.name : d.name;
       if (isIgnored(rel, d.name, rules)) continue;
       if (d.isDirectory()) { if (!SKIP_DIRS.has(d.name)) stack.push(rel); }
-      else if (d.isFile() && !SKIP_FILES.has(d.name) && (EXTS.has(path.extname(d.name).toLowerCase()) || NAMES.test(d.name))) yield rel;
+      else if (d.isFile() && isScannable(d.name)) yield rel;
     }
   }
 }
@@ -125,6 +129,6 @@ function main(argv) {
   return findings.some((f) => f.severity === 'blocked') ? 1 : 0;
 }
 
-module.exports = { loadBlocklist, matchText, scan, table, BLOCKLIST_PATH };
+module.exports = { loadBlocklist, matchText, scan, table, isScannable, BLOCKLIST_PATH };
 
 if (require.main === module) process.exitCode = main(process.argv);

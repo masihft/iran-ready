@@ -1,0 +1,13 @@
+{
+  "description": "iran-ready: warn when Claude writes or installs a service that is blocked from Iran",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit|Bash",
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/guard.js\"", "timeout": 5 }
+        ]
+      }
+    ]
+  }
+}

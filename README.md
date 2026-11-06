@@ -4,7 +4,7 @@ Find the parts of your project that don't work from Iran (blocked or sanctioned 
 
 iran-ready only recommends **local alternatives and self-hosting**. It does not suggest VPNs, proxies, or any way around sanctions.
 
-> Status: the scanner and the `/iran-audit` and `/iran-fix` commands work. The warning hook and the Persian UX skill are in progress.
+> Status: the scanner, the `/iran-audit` and `/iran-fix` commands and the warning hook work. The Persian UX skill is in progress.
 
 ## Install the Claude Code plugin
 
@@ -25,6 +25,14 @@ Then, inside any project:
 |---|---|
 | `/iran-ready:iran-audit [path]` | Scans the project and explains every finding grouped by severity, with alternatives and an effort estimate (S/M/L). It writes in Persian if you write in Persian. It only reads. |
 | `/iran-ready:iran-fix [service-id]` | Proposes a migration plan and asks before changing anything. Then it migrates one service at a time and re-scans after each. It never deletes files without asking. |
+
+### Warning hook
+
+The plugin also installs a `PreToolUse` hook on `Write`, `Edit`, `MultiEdit` and `Bash`. When Claude is about to add a `blocked` service, the hook passes Claude a warning with the alternative. Examples: a `fonts.googleapis.com` link, `npm i firebase`, `docker pull node:20`.
+
+- It warns and never blocks. The tool call goes ahead.
+- It only checks new content (`new_string` for edits) and the same file types as the scanner.
+- It runs in about 30 ms, and on any internal error it exits 0 silently.
 
 ## Use the scanner on its own
 
@@ -97,7 +105,7 @@ Use `--json` for machine-readable output.
 
 - [x] Blocklist + standalone scanner + fixture tests
 - [x] Claude Code plugin: `/iran-audit` and `/iran-fix`
-- [ ] `PreToolUse` hook that warns when Claude writes a blocked service into your code
+- [x] `PreToolUse` hook that warns when Claude writes a blocked service into your code
 - [ ] `persian-ux` skill: RTL, Jalali dates, Persian digits, half-space, Toman/Rial, national ID / card / Sheba validation
 
 ## Contributing
@@ -118,7 +126,7 @@ Adding a blocklist entry is the most useful contribution. See [CONTRIBUTING.md](
 /plugin install iran-ready --marketplace masihft/iran-ready
 ```
 
-بعد در هر پروژه `/iran-ready:iran-audit` را برای گزارش اجرا کنید و `/iran-ready:iran-fix` را برای مهاجرت. مهاجرت سرویس‌به‌سرویس انجام می‌شود و قبل از هر تغییر از شما تأیید گرفته می‌شود.
+بعد در هر پروژه `/iran-ready:iran-audit` را برای گزارش اجرا کنید و `/iran-ready:iran-fix` را برای مهاجرت. مهاجرت سرویس‌به‌سرویس انجام می‌شود و قبل از هر تغییر از شما تأیید گرفته می‌شود. اگر Claude بخواهد سرویس مسدودی به کد اضافه کند، hook پلاگین به خود Claude هشدار می‌دهد. جلوی کار را نمی‌گیرد.
 
 اجرای اسکنر بدون نصب:
 
