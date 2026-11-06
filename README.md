@@ -23,10 +23,10 @@ On Claude Code versions older than 2.1.275, use two steps:
 /plugin install iran-ready@iran-ready
 ```
 
-**Scanner only**: no install and no dependencies. Requires Node 18+.
+**Scanner only**: no install and no dependencies. Requires Node 18+. [![npm](https://img.shields.io/npm/v/iran-ready)](https://www.npmjs.com/package/iran-ready)
 
 ```bash
-npx github:masihft/iran-ready scan
+npx iran-ready scan
 ```
 
 ## Demo: try it in 60 seconds
@@ -40,7 +40,7 @@ git clone https://github.com/masihft/iran-ready && cd iran-ready
 **1. Scan a project.** This is what the GIF above shows.
 
 ```bash
-npx github:masihft/iran-ready scan tests/fixtures/react-app
+npx iran-ready scan tests/fixtures/react-app
 ```
 
 **2. Get an explained report in Claude Code.**
@@ -116,7 +116,7 @@ Severities and alternatives come from a [field check run from an Iranian connect
 The exit code is `1` when a `blocked` service is found, `0` otherwise, and `2` for a bad path. Use `--json` for machine-readable output.
 
 ```yaml
-- run: npx github:masihft/iran-ready scan
+- run: npx iran-ready scan
 ```
 
 ## Contributing
@@ -147,7 +147,7 @@ If you are in Iran, the most valuable help is a field check. Turn off any VPN, r
 اجرای اسکنر بدون نصب:
 
 ```bash
-npx github:masihft/iran-ready scan
+npx iran-ready scan
 ```
 
 اگر سرویسی با وضعیت `blocked` پیدا شود، exit code برابر 1 است؛ برای همین در CI هم قابل استفاده است. برای اضافه کردن سرویس جدید، [CONTRIBUTING.md](CONTRIBUTING.md) را ببینید.
