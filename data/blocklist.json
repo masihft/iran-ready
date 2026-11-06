@@ -254,8 +254,7 @@
     "why": "Stripe does not onboard Iranian businesses and Iranian bank cards are not accepted.",
     "alternatives": [
       { "name": "Zarinpal", "url": "https://www.zarinpal.com", "migration_note": "Request -> redirect -> verify flow; amounts are in Rial or Toman depending on API version, check the docs.", "verify": true },
-      { "name": "Zibal", "url": "https://zibal.ir", "migration_note": "Similar request/verify gateway flow with a merchant code.", "verify": true },
-      { "name": "IDPay", "url": "https://idpay.ir", "migration_note": "REST gateway with sandbox mode for testing.", "verify": true }
+      { "name": "Zibal", "url": "https://zibal.ir", "migration_note": "Similar request/verify gateway flow with a merchant code.", "verify": true }
     ]
   },
   {

@@ -216,9 +216,10 @@ This is a character map, not a validator, so writing it by hand is fine. For any
 **Jalali dates**: the `intl` extension for display, and `morilog/jalali` for arithmetic and parsing.
 
 ```php
-$fmt = new IntlDateFormatter('fa_IR@calendar=persian', IntlDateFormatter::FULL, IntlDateFormatter::NONE,
-    'Asia/Tehran', IntlDateFormatter::TRADITIONAL);
-echo $fmt->format(new DateTime());          // Persian digits and month names
+// Use an explicit pattern: the FULL style puts the weekday last.
+$fmt = new IntlDateFormatter('fa_IR@calendar=persian', IntlDateFormatter::NONE, IntlDateFormatter::NONE,
+    'Asia/Tehran', IntlDateFormatter::TRADITIONAL, 'EEEE d MMMM y');
+echo $fmt->format(new DateTime());          // 'جمعه ۱۵ آبان ۱۴۰۵'
 
 use Morilog\Jalali\Jalalian;
 echo Jalalian::now()->format('Y/m/d');      // 1405/08/15

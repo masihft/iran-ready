@@ -1,5 +1,7 @@
 # iran-ready
 
+[![test](https://github.com/masihft/iran-ready/actions/workflows/test.yml/badge.svg)](https://github.com/masihft/iran-ready/actions/workflows/test.yml)
+
 Find the parts of your project that don't work from Iran (blocked or sanctioned services), and switch to local or self-hosted alternatives. A Claude Code plugin plus a zero-dependency scanner.
 
 ![iran-ready scanning a React app: 9 blocked and 3 sanctioned-signup services, each with a local alternative](docs/demo.gif)
@@ -121,6 +123,8 @@ The exit code is `1` when a `blocked` service is found, `0` otherwise, and `2` f
 
 Adding a blocklist entry is the most useful contribution. See [CONTRIBUTING.md](CONTRIBUTING.md). Run the tests with `npm test`.
 
+If you are in Iran, the most valuable help is a field check. Turn off any VPN, run `node scripts/check-from-iran.js`, and paste the output in a new issue. It tests every service and every suggested alternative from your connection.
+
 ---
 
 ## فارسی
@@ -147,6 +151,8 @@ npx github:masihft/iran-ready scan
 ```
 
 اگر سرویسی با وضعیت `blocked` پیدا شود، exit code برابر 1 است؛ برای همین در CI هم قابل استفاده است. برای اضافه کردن سرویس جدید، [CONTRIBUTING.md](CONTRIBUTING.md) را ببینید.
+
+اگر داخل ایران هستید، VPN را خاموش کنید، `node scripts/check-from-iran.js` را اجرا کنید و خروجی را در یک issue بفرستید. این بزرگ‌ترین کمک به دقیق‌تر شدن فهرست است.
 
 ## License
 

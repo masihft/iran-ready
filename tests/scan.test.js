@@ -61,6 +61,9 @@ test('docker-hub pattern ignores images with a registry host', () => {
   assert.equal(matchText('FROM registry.local:5000/app', entries, 'Dockerfile').length, 0);
   assert.equal(matchText('FROM scratch', entries, 'Dockerfile').length, 0);
   assert.equal(matchText('FROM --platform=linux/amd64 node:20', entries, 'Dockerfile')[0].entry.id, 'docker-hub');
+  // multi-stage: `FROM build` refers to an earlier stage, not Docker Hub
+  const multi = matchText('FROM docker.arvancloud.ir/library/node:20 AS build\nRUN npm ci\nFROM build AS test\nFROM nginx', entries, 'Dockerfile');
+  assert.deepEqual(multi.map((h) => h.line), [4]);
   // files hint: FROM in a non-Docker file is not a pull
   assert.equal(matchText('FROM node:20', entries, 'notes.js').length, 0);
 });

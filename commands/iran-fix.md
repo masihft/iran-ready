@@ -62,7 +62,7 @@ Use these as a starting point. Adapt them to the project's framework and convent
 
 **Google Maps / Mapbox → Neshan, Map.ir or Leaflet + OSM**: replace the map component, then markers, then geocoding calls. Put the API key in an env var. Check that coordinates stay `[lat, lng]` in the order the new library expects.
 
-**Stripe / PayPal → Zarinpal, Zibal or IDPay**: implement the request → redirect → callback → verify flow on the server. Never trust the callback without the verify call. Check whether the gateway expects Rial or Toman and convert amounts explicitly. Keep the old provider's code behind a flag only if the user asks.
+**Stripe / PayPal → Zarinpal or Zibal**: implement the request → redirect → callback → verify flow on the server. Never trust the callback without the verify call. Check whether the gateway expects Rial or Toman and convert amounts explicitly. Keep the old provider's code behind a flag only if the user asks.
 
 **Firebase → Supabase, Appwrite or PocketBase (self-hosted)**: this is a large migration. Plan it with the user first: auth, then data, then storage. Do not try it in one step.
 

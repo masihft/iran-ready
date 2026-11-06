@@ -32,8 +32,13 @@ function matchText(text, entries, fileName) {
   const active = entries.filter((e) => !fileName || !e.fileRegexes.length || e.fileRegexes.some((r) => r.test(fileName)));
   if (!active.length) return hits;
   const lines = text.split(/\r?\n/);
+  const stages = new Set(); // multi-stage build names: `FROM builder` pulls nothing
   for (let i = 0; i < lines.length; i++) {
+    const from = /^\s*FROM\s+(?:--platform=\S+\s+)?(\S+)(?:\s+AS\s+(\S+))?/i.exec(lines[i]);
+    const stageRef = from && stages.has(from[1].toLowerCase());
+    if (from && from[2]) stages.add(from[2].toLowerCase());
     for (const entry of active) {
+      if (stageRef && entry.id === 'docker-hub') continue;
       for (const re of entry.regexes) {
         const m = re.exec(lines[i]);
         if (m) { hits.push({ entry, line: i + 1, match: m[0].trim() }); break; }
