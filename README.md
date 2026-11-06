@@ -154,6 +154,10 @@ npx github:masihft/iran-ready scan
 
 اگر داخل ایران هستید، VPN را خاموش کنید، `node scripts/check-from-iran.js` را اجرا کنید و خروجی را در یک issue بفرستید. این بزرگ‌ترین کمک به دقیق‌تر شدن فهرست است.
 
+## Privacy
+
+iran-ready collects and sends no data. See [PRIVACY.md](PRIVACY.md).
+
 ## License
 
 [MIT](LICENSE)
