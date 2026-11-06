@@ -4,7 +4,7 @@
 
 Find the parts of your project that don't work from Iran (blocked or sanctioned services), and switch to local or self-hosted alternatives. A Claude Code plugin plus a zero-dependency scanner.
 
-![iran-ready scanning a React app: 9 blocked and 3 sanctioned-signup services, each with a local alternative](docs/demo.gif)
+![iran-ready scanning a React app: 8 blocked, 3 sanctioned-signup and 1 unreliable service, each with a local alternative](docs/demo.gif)
 
 iran-ready only recommends **local alternatives and self-hosting**. It does not suggest VPNs, proxies, or any way around sanctions.
 
