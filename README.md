@@ -54,27 +54,27 @@ Claude groups the findings by severity, explains each one, lists alternatives, a
 ```text
 | Service          | Severity          | Effort |
 |------------------|-------------------|--------|
-| Google Fonts     | blocked           | S      |
-| Google Analytics | blocked           | S      |
 | Docker Hub       | blocked           | S      |
 | YouTube embeds   | blocked           | S      |
-| Google Maps      | blocked           | S–M    |
-| reCAPTCHA        | blocked           | M      |
+| PayPal           | blocked           | L      |
+| Google Maps      | sanctioned-signup | S–M    |
 | Stripe           | sanctioned-signup | L      |
-| PayPal           | sanctioned-signup | L      |
+| Google Fonts     | unreliable        | S      |
+| Google Analytics | unreliable        | S      |
+| reCAPTCHA        | unreliable        | M      |
 | Gravatar         | unreliable        | S      |
 ```
 
 Write to Claude in Persian and the report comes back in Persian.
 
-**3. See the hook catch a blocked service.** Ask Claude something like *"add the Vazirmatn font from Google Fonts to index.html"*. Before the file is written, Claude receives:
+**3. See the hook catch a blocked service.** Ask Claude something like *"add Firebase auth to this app"*. When Claude runs `npm install firebase`, it first receives:
 
 ```text
-iran-ready: this Write in index.html uses services that are blocked from Iran:
-- Google Fonts [google-fonts] matched `fonts.googleapis.com`: Google font CDN requests from Iran
-  fail or time out, so pages render with fallback fonts and block on the stylesheet.
-  Alternative: Self-hosted Vazirmatn (https://github.com/rastikerdar/vazirmatn) or
-  @fontsource/vazirmatn (https://fontsource.org/fonts/vazirmatn).
+iran-ready: this Bash uses services that are blocked from Iran:
+- Firebase [firebase] matched `"firebase"`: firestore.googleapis.com returned HTTP 403 from Iran
+  in a 2026-11-06 field check; Firebase auth, database and storage calls fail.
+  Alternative: Supabase (self-hosted) (https://supabase.com/docs/guides/self-hosting) or
+  Appwrite (self-hosted) (https://appwrite.io).
 ```
 
 **4. Fix it.**
@@ -107,7 +107,7 @@ To re-record the GIF, install [vhs](https://github.com/charmbracelet/vhs) and ru
 | `sanctioned-signup` | It may load, but you cannot open or keep an account from Iran. |
 | `unreliable` | Slow, throttled or filtered at times. |
 
-Every alternative is marked `"verify": true` until a maintainer has checked it by hand.
+Severities and alternatives come from a [field check run from an Iranian connection without a VPN](docs/field-check-2026-11-06.txt) on 2026-11-06. Filtering in Iran differs by ISP and changes over time, so treat `unreliable` as "works today, may break". An alternative marked `"verify": true` was not reachable in that check; right now that is only ollama.com.
 
 **Files scanned**: `html`, `php`, `js/ts/jsx/tsx`, `vue`, `svelte`, `css/scss`, `json` (including `package.json` and `composer.json`), `Dockerfile`, `docker-compose`, `.env.example` and `.npmrc`. It skips `node_modules`, `vendor`, `dist`, `build`, `.git`, lock files, files over 1 MB, and paths in the root `.gitignore`.
 

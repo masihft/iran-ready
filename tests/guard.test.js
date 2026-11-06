@@ -11,16 +11,16 @@ function run(input) {
 }
 const ids = (out) => [...out.hookSpecificOutput.additionalContext.matchAll(/\[([\w-]+)\]/g)].map((m) => m[1]).sort();
 
-test('Write with Google Fonts warns and does not block', () => {
-  const r = run({ tool_name: 'Write', tool_input: { file_path: '/p/index.html', content: '<link href="https://fonts.googleapis.com/css2?family=X">' } });
+test('Write with a YouTube embed warns and does not block', () => {
+  const r = run({ tool_name: 'Write', tool_input: { file_path: '/p/index.html', content: '<iframe src="https://www.youtube.com/embed/x"></iframe>' } });
   assert.equal(r.status, 0);
-  assert.deepEqual(ids(r.out), ['google-fonts']);
+  assert.deepEqual(ids(r.out), ['youtube-embed']);
   assert.equal(r.out.hookSpecificOutput.hookEventName, 'PreToolUse');
   assert.equal(r.out.hookSpecificOutput.permissionDecision, undefined);
 });
 
 test('Edit checks only new_string', () => {
-  assert.equal(run({ tool_name: 'Edit', tool_input: { file_path: '/p/a.css', old_string: "@import 'https://fonts.googleapis.com/x';", new_string: "@import './fonts.css';" } }).out, null);
+  assert.equal(run({ tool_name: 'Edit', tool_input: { file_path: '/p/a.css', old_string: "<iframe src='https://www.youtube.com/embed/x'>", new_string: "<video src='/intro.mp4'>" } }).out, null);
   const r = run({ tool_name: 'MultiEdit', tool_input: { file_path: '/p/App.jsx', edits: [{ new_string: "import x from 'react-youtube';" }] } });
   assert.deepEqual(ids(r.out), ['youtube-embed']);
 });
@@ -28,13 +28,14 @@ test('Edit checks only new_string', () => {
 test('Bash install and pull commands warn', () => {
   const r = run({ tool_name: 'Bash', tool_input: { command: 'npm i firebase@10 && docker run -it --rm node:20 bash' } });
   assert.deepEqual(ids(r.out), ['docker-hub', 'firebase']);
-  assert.deepEqual(ids(run({ tool_name: 'Bash', tool_input: { command: 'composer require google/recaptcha' } }).out), ['recaptcha']);
+  assert.deepEqual(ids(run({ tool_name: 'Bash', tool_input: { command: 'composer require kreait/firebase-php' } }).out), ['firebase']);
 });
 
 test('no warning for clean input, mirrors, non-blocked severities and unscanned files', () => {
   assert.equal(run({ tool_name: 'Bash', tool_input: { command: 'docker pull docker.arvancloud.ir/library/node:20' } }).out, null);
   assert.equal(run({ tool_name: 'Bash', tool_input: { command: 'npm install stripe' } }).out, null); // sanctioned-signup, not blocked
-  assert.equal(run({ tool_name: 'Write', tool_input: { file_path: '/p/README.md', content: 'fonts.googleapis.com' } }).out, null);
+  assert.equal(run({ tool_name: 'Bash', tool_input: { command: "python3 -c 'from collections import Counter'" } }).out, null); // not a Dockerfile FROM
+  assert.equal(run({ tool_name: 'Write', tool_input: { file_path: '/p/README.md', content: 'youtube.com/embed/x' } }).out, null);
   assert.equal(run({ tool_name: 'Read', tool_input: { file_path: '/p/x.html' } }).out, null);
 });
 

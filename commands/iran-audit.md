@@ -38,7 +38,7 @@ Inside each group, one block per service, not per line:
 
 - **Service name**, with every `file:line` it appears on. If there are more than 8 locations, list 8 and give the count.
 - **Why**: one sentence from the `why` field.
-- **Alternatives**: from the `alternatives` field, with name, URL and migration note. Every alternative has `"verify": true`, so say once at the top of the report that the alternatives are not yet verified by hand.
+- **Alternatives**: from the `alternatives` field, with name, URL and migration note. If any alternative you list has `"verify": true`, mark it as not yet verified from Iran.
 - **Effort**: an estimate from the table below. Raise it if the service appears in many files or deep in business logic. Read the code around the findings when you need to judge this.
 
 | Effort | Typical cases |

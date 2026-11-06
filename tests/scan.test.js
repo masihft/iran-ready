@@ -17,7 +17,7 @@ test('blocklist entries are well-formed', () => {
     for (const k of ['name', 'category', 'why']) assert.ok(e[k], `${e.id} missing ${k}`);
     assert.ok(['blocked', 'unreliable', 'sanctioned-signup'].includes(e.severity), `${e.id} bad severity`);
     assert.ok(e.patterns.length && e.alternatives.length, `${e.id} needs patterns and alternatives`);
-    for (const a of e.alternatives) assert.equal(a.verify, true, `${e.id}: ${a.name} must be verify:true`);
+    for (const a of e.alternatives) assert.equal(typeof a.verify, 'boolean', `${e.id}: ${a.name} needs verify: true|false`);
   }
 });
 

@@ -14,7 +14,7 @@ Replace services that don't work from Iran with local or self-hosted alternative
 - Never delete a file without asking first. Removing a reference (a `<link>`, an import, a dependency line) is part of the approved change. Deleting a whole file is not, so ask.
 - Never edit `node_modules`, `vendor`, `dist`, `build` or lock files by hand. Change the manifest (`package.json`, `composer.json`) and tell the user which install command to run.
 - Never write real API keys, merchant IDs or passwords. Use environment variables and add placeholders to `.env.example`.
-- Every alternative in the blocklist has `"verify": true`. Tell the user that once, before the plan.
+- An alternative with `"verify": true` has not been confirmed reachable from Iran. Say so when you propose it, and prefer a verified one.
 - Write in the user's language. If the user writes Persian, answer in Persian.
 
 ## 1. Find what to fix

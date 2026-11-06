@@ -29,7 +29,8 @@ iran-ready only recommends **local alternatives and self-hosting**. PRs that sug
    - `blocked`: requests fail from Iran. The scanner exits with code 1.
    - `sanctioned-signup`: the service may load, but Iranians cannot open or keep an account.
    - `unreliable`: works sometimes; slow, throttled or filtered at times.
-3. Keep `"verify": true` on new alternatives. A maintainer sets it to `false` after checking the link and the migration note.
-4. Patterns are JSON strings, so escape backslashes (`\\.` for a literal dot). Prefer specific hostnames or quoted package names over short words.
-5. Add a line that triggers the entry to a fixture in `tests/fixtures/` and update the expected list in `tests/scan.test.js`.
-6. Run `npm test`.
+3. Set `"verify": true` on new alternatives. A maintainer sets it to `false` once `node scripts/check-from-iran.js`, run from an Iranian connection without a VPN, shows the link is reachable.
+4. Base the severity on a field check where you can, and say so in `why` (for example: "returned HTTP 403 from Iran in a 2026-11-06 field check"). Filtering changes by ISP and over time, so dated evidence helps.
+5. Patterns are JSON strings, so escape backslashes (`\\.` for a literal dot). Prefer specific hostnames or quoted package names over short words.
+6. Add a line that triggers the entry to a fixture in `tests/fixtures/` and update the expected list in `tests/scan.test.js`.
+7. Run `npm test`.

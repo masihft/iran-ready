@@ -58,7 +58,7 @@ Flexbox and grid already follow `dir`. Do not reverse them with `flex-direction:
 <input id="mobile" type="tel" dir="ltr" inputmode="numeric" autocomplete="tel" placeholder="09121234567">
 ```
 
-**Fonts**: use Vazirmatn, self-hosted (Google Fonts is blocked from Iran; see the `google-fonts` blocklist entry). Do not use `letter-spacing` on Persian text, because it breaks letter joining.
+**Fonts**: use Vazirmatn, self-hosted (Google Fonts is unreliable from Iran; see the `google-fonts` blocklist entry). Do not use `letter-spacing` on Persian text, because it breaks letter joining.
 
 ## 2. Persian and Arabic digits
 

@@ -10,11 +10,12 @@ function textsFor(toolName, input) {
   if (toolName === 'Write') return [{ text: input.content, fileName: input.file_path }];
   if (toolName === 'Edit') return [{ text: input.new_string, fileName: input.file_path }];
   if (toolName === 'MultiEdit') return (input.edits || []).map((e) => ({ text: e.new_string, fileName: input.file_path }));
-  if (toolName === 'Bash') return [{ text: bashText(input.command || '') }];
+  // Raw shell text skips docker-hub: a FROM-like word there (Python's `from x import y`) is not an image.
+  if (toolName === 'Bash') return [{ text: input.command, skip: 'docker-hub' }, { text: bashText(input.command || '') }];
   return [];
 }
 
-// Turn install/pull commands into lines the blocklist patterns already understand:
+// Extra lines from install/pull commands, in a form the blocklist patterns already understand:
 // `npm i firebase@10` -> `"firebase"`, `docker pull node:20` -> `FROM node:20`.
 function bashText(cmd) {
   const extra = [];
@@ -28,7 +29,7 @@ function bashText(cmd) {
     const image = firstImage(m[1].trim().split(/\s+/));
     if (image) extra.push(`FROM ${image}`);
   }
-  return [cmd, ...extra].join('\n');
+  return extra.join('\n');
 }
 
 // Flags whose value is a separate token (docker run/pull). Others are treated as boolean.
@@ -48,16 +49,16 @@ function firstImage(tokens) {
 function warnings(event, entries, scan) {
   const input = event.tool_input || {};
   const seen = new Map();
-  for (const { text, fileName } of textsFor(event.tool_name, input)) {
+  for (const { text, fileName, skip } of textsFor(event.tool_name, input)) {
     if (typeof text !== 'string' || !text) continue;
     const base = fileName ? path.basename(fileName) : undefined;
     if (base && !scan.isScannable(base)) continue; // same file types as the scanner
-    for (const hit of scan.matchText(text, entries, base)) {
+    for (const hit of scan.matchText(text, entries.filter((e) => e.id !== skip), base)) {
       if (hit.entry.severity === 'blocked' && !seen.has(hit.entry.id)) seen.set(hit.entry.id, hit);
     }
   }
   return [...seen.values()].map(({ entry, match }) => {
-    const alts = entry.alternatives.slice(0, 2).map((a) => `${a.name} (${a.url})`).join(' or ');
+    const alts = entry.alternatives.slice(0, 2).map((a) => `${a.name} (${a.url})${a.verify ? ' [unverified]' : ''}`).join(' or ');
     return `- ${entry.name} [${entry.id}] matched \`${match.slice(0, 80)}\`: ${entry.why} Alternative: ${alts}.`;
   });
 }
@@ -72,8 +73,7 @@ function main() {
   if (!lines.length) return;
   const where = event.tool_input && event.tool_input.file_path ? ` in ${path.basename(event.tool_input.file_path)}` : '';
   const msg = `iran-ready: this ${event.tool_name}${where} uses services that are blocked from Iran:\n${lines.join('\n')}\n` +
-    'This is a warning only. Prefer the local or self-hosted alternative, or tell the user and suggest /iran-ready:iran-fix. ' +
-    'Alternatives are unverified (verify: true).';
+    'This is a warning only. Prefer the local or self-hosted alternative, or tell the user and suggest /iran-ready:iran-fix.';
   process.stdout.write(JSON.stringify({
     systemMessage: `iran-ready: blocked service detected (${lines.length}). See the warning in context.`,
     hookSpecificOutput: { hookEventName: 'PreToolUse', additionalContext: msg },

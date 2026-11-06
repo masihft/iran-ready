@@ -1,0 +1,72 @@
+Checking 28 services and 37 alternative links (about 30 seconds)...
+
+SERVICES (should mostly FAIL or be REFUSED from Iran)
+ok       HTTP 200           529ms  google-fonts          blocked
+ok       HTTP 200          2657ms  recaptcha             blocked
+ok       HTTP 200           648ms  cloudflare-turnstile  unreliable
+ok       HTTP 200           601ms  google-maps           blocked
+ok       HTTP 200           498ms  mapbox                sanctioned-signup
+REFUSED  HTTP 403           835ms  firebase              blocked
+ok       HTTP 400          1326ms  google-cloud          blocked
+ok       HTTP 200          1381ms  google-analytics      blocked
+REFUSED  HTTP 403           560ms  google-signin         unreliable
+FAIL     UND_ERR_CONNECT_TIMEOUT  2652ms  youtube-embed         blocked
+FAIL     UND_ERR_CONNECT_TIMEOUT  4052ms  social-embeds         blocked
+ok       HTTP 200          2384ms  gravatar              unreliable
+REFUSED  HTTP 403          2233ms  openai-api            blocked
+REFUSED  HTTP 403          2209ms  anthropic-api         blocked
+REFUSED  HTTP 403          2236ms  google-gemini         blocked
+REFUSED  HTTP 403          2392ms  docker-hub            blocked
+ok       HTTP 200          1039ms  npm-registry          unreliable
+ok       HTTP 200          1457ms  packagist             unreliable
+ok       HTTP 200           834ms  public-cdns           unreliable
+ok       HTTP 200           904ms  stripe                sanctioned-signup
+REFUSED  HTTP 403          1390ms  paypal                sanctioned-signup
+ok       HTTP 200           667ms  vercel                sanctioned-signup
+ok       HTTP 200          1417ms  netlify               sanctioned-signup
+ok       HTTP 200          1903ms  aws                   sanctioned-signup
+ok       HTTP 200           990ms  heroku                sanctioned-signup
+REFUSED  HTTP 403           675ms  sentry                sanctioned-signup
+REFUSED  HTTP 451          1062ms  twilio                sanctioned-signup
+REFUSED  HTTP 451           879ms  sendgrid              sanctioned-signup
+
+ALTERNATIVES (should all be ok from Iran)
+ok       HTTP 200          1161ms  https://github.com/rastikerdar/vazirmatn
+ok       HTTP 200          1670ms  https://fontsource.org/fonts/vazirmatn
+ok       HTTP 200          1283ms  https://github.com/produck/svg-captcha
+ok       HTTP 200          1065ms  https://github.com/Gregwar/Captcha
+ok       HTTP 200           450ms  https://platform.neshan.org
+ok       HTTP 200           358ms  https://map.ir
+ok       HTTP 200           652ms  https://leafletjs.com
+ok       HTTP 200           687ms  https://maplibre.org
+ok       HTTP 200           924ms  https://supabase.com/docs/guides/self-hosting
+ok       HTTP 200           902ms  https://appwrite.io
+ok       HTTP 200           940ms  https://pocketbase.io
+ok       HTTP 200           511ms  https://www.arvancloud.ir
+REFUSED  HTTP 403          1915ms  https://min.io
+ok       HTTP 200           884ms  https://umami.is
+ok       HTTP 200           937ms  https://matomo.org
+ok       HTTP 200           481ms  https://kavenegar.com
+ok       HTTP 200           982ms  https://www.keycloak.org
+ok       HTTP 200           471ms  https://www.aparat.com
+ok       HTTP 200           797ms  https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
+ok       HTTP 200           769ms  https://www.dicebear.com
+ok       HTTP 200           593ms  https://developer.mozilla.org/en-US/docs/Web/SVG
+REFUSED  HTTP 403           763ms  https://ollama.com
+ok       HTTP 200          1071ms  https://docs.vllm.ai
+ok       HTTP 200           578ms  https://docker.arvancloud.ir
+ok       HTTP 200           710ms  https://goharbor.io
+ok       HTTP 200           385ms  https://liara.ir
+ok       HTTP 200          1689ms  https://verdaccio.org
+ok       HTTP 200           671ms  https://github.com/composer/satis
+ok       HTTP 200          1321ms  https://docs.npmjs.com/cli/commands/npm-install
+ok       HTTP 200           350ms  https://www.zarinpal.com
+ok       HTTP 200           325ms  https://zibal.ir
+ok       HTTP 200          1563ms  https://hamravesh.com
+ok       HTTP 200           811ms  https://glitchtip.com
+ok       HTTP 200          1328ms  https://develop.sentry.dev/self-hosted/
+ok       HTTP 200          1156ms  https://sms.ir
+ok       HTTP 200          2022ms  https://docs.postalserver.io
+ok       HTTP 200          1799ms  https://nodemailer.com
+
+node v26.5.0, 2026-11-06T09:34:45.048Z. Copy everything above and send it.

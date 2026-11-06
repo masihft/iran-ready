@@ -1,6 +1,6 @@
 {
   "name": "iran-ready",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "Find services that don't work from Iran (blocked or sanctioned) and migrate to local or self-hosted alternatives. Includes /iran-audit, /iran-fix, a warning hook and a persian-ux skill.",
   "author": { "name": "masihft", "url": "https://github.com/masihft" },
   "homepage": "https://github.com/masihft/iran-ready",
